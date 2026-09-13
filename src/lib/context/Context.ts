@@ -33,3 +33,13 @@ export const userContext = createContext<Usercontext>({
 	setbowl: () => undefined,
 	myBowl: [],
 });
+
+interface AdminContextValue {
+	setpopup: Dispatch<SetStateAction<string>>;
+	setservererror: Dispatch<SetStateAction<string>>;
+}
+
+export const adminContext = createContext<AdminContextValue>({
+	setpopup: () => undefined,
+	setservererror: () => undefined,
+});

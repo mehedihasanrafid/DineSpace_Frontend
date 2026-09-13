@@ -1,17 +1,30 @@
 import { WithdrawalStatus } from "../Enums";
+import { Restaurant } from "./order";
 
 export interface WithdrawalRequest {
     id: string;
-    accountNumber: string;
+    walletId: string;
+    paymentId: string | null;
+    orderId: string | null;
+    wallet?: {
+        id: string;
+        balance: string;
+        restaurantId: string;
+        restaurant?: Restaurant;
+        createdAt: string;
+        updatedAt: string;
+    };
     amount: string;
-    createdAt: string;
-    paymentMethod: string;
-    processedAt: string | null;
-    rejectionReason: string | null;
     status: WithdrawalStatus;
     type: string;
+    paymentMethod: string;
+    accountNumber: string;
+    processedAt: string | null;
+    rejectionReason: string | null;
+    createdAt: string;
     updatedAt: string;
-    walletId: string;
+    deletedAt: string | null;
+    restaurantName?: string;
 }
 
 export interface Wallet {
@@ -21,6 +34,6 @@ export interface Wallet {
     restaurantId: string;
     updatedAt: string;
     withdrawalRequests: WithdrawalRequest[];
+    restaurant?: Restaurant;
 }
-
 

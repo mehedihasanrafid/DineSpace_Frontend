@@ -30,6 +30,7 @@ export interface Restaurant {
     address: string;
     files: Files[] | null;
     isopen: boolean;
+    isBanned?: boolean;
     opening: string;
     phone: string;
     resturantemail: string;

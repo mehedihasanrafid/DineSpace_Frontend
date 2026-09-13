@@ -1,20 +1,8 @@
-"use client"
-import Overview from "@/components/Overview"
-import PageLoader from "@/components/PageLoader";
-import { useEffect, useState } from "react";
 
-export default function Home() {
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        const timeout = window.setTimeout(() => setLoading(false), 500);
-        return () => window.clearTimeout(timeout);
-    }, []);
-
+export default function AdminHome() {
     return (
-        <>
-            {/* {loading && <PageLoader load={true} time={500} />} */}
-            <Overview />
-        </>
+        <div className="flex flex-col items-center justify-center h-full">
+            <h1 className="text-4xl font-bold mb-4">Welcome to the Admin Dashboard</h1>
+        </div>
     );
 }
