@@ -55,6 +55,9 @@ export default function Auth(){
             if(data.Data?.role === "owner"){
                 router.push("/home");
             }
+             if(data.Data?.role === "admin"){
+                router.push("/admin");
+            }
             }
             
             else if(data.Message && data.Message.includes('Wrong Password')){
