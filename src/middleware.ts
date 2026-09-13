@@ -10,7 +10,7 @@ interface MyTokenPayload {
 } 
 
 const rolerouter: Record<string, string[]> = {
-    admin:[ "/adminHome" , '/adminhome/:path*'],
+    admin:[ "/admin" , '/admin/:path*'],
     owner:["/home" , '/home/:path*']
 }
 
@@ -60,5 +60,5 @@ export async function middleware(request: NextRequest) {
 }
  
 export const config = {
-  matcher: ['/home', '/home/:path*'],
+  matcher: ['/home', '/home/:path*' , "/admin" , '/admin/:path*'],
 }

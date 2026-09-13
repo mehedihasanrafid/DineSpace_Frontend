@@ -4,7 +4,6 @@ import { resturantContext } from "@/lib/context/Context"
 import { Payment } from "@/lib/interfaces/payment"
 import Result from "@/lib/Result"
 import { ArrowDownUp, CalendarSearch, Landmark, Search } from "lucide-react"
-import Link from "next/link"
 import { useContext, useEffect, useState } from "react"
 import KPICard from "@/components/KPICards"
 import { paymentMethods, PaymentStatus } from "@/lib/Enums"
@@ -21,8 +20,6 @@ export default function PaymentsPage() {
     useEffect(() => {
         import("cally");
     }, []);
-
-    // console.log(monthdata.getMonth());
 
     const getpayments = async()=>{
         if (!defaultResturant) return;
@@ -241,7 +238,7 @@ export default function PaymentsPage() {
         </div>
             <div className="flex flex-row gap-5 items-start justify-self-start h-fit w-[30%] flex-wrap mt-5">
                 <KPICard title="Total Payments " amount={totalPayments??0} subtitle={"BDT"} />
-                <KPICard title="Total Transactions" amount={totalPaymentsCount ?? 0}  subtitle={"BDT"}/>
+                <KPICard title="Total Transactions" amount={totalPaymentsCount ?? 0}  subtitle={""}/>
                 <KPICard title="Total Refunds" amount={totalRefundsCount ?? 0} subtitle={"orders"}/>
                 <KPICard title="Refund Percentage" amount={refundPercentage ?? 0} subtitle={"%"} icon={<ArrowDownUp size={20} />} />
                 <KPICard title="Online Payments Percentage" amount={onlinePaymentsPercentage ?? 0} subtitle={"%"} icon={<ArrowDownUp size={20} />} />

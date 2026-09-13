@@ -21,6 +21,7 @@ export default function Overview() {
     const [totalamount, settotalamount] = useState(0);
     const [kpicards , setkpicard ] = useState<kpicard[]>();
     const {defaultResturant, setpopup , refreshOrders} = useContext(resturantContext);
+    const [sendorders , setSendorders] = useState<Order[]>([]);
     // const [date , setdate] = useState(()=> new Date());
 
     const handleChange = (id:string , state:OrderStatus , paymentstate?:PaymentStatus)=>{
@@ -54,13 +55,13 @@ export default function Overview() {
             // console.log("payable");
             // console.log(payable);
 
-            const kpicard = [{title:"Today's Orders",icon:<CookingPot  />,amount:getorders?.length ,subtitle:"BDT"}  , 
+            const kpicard = [{title:"Today's Orders",icon:<CookingPot  />,amount:getorders?.length ,subtitle:""}  , 
                         {title:"Pending Orders" ,icon:<RotateCwFadingClock />,amount:getorders?.filter((e)=> e.OrderStatus == OrderStatus.Pending).length ,subtitle:"Orders"} ,
                         {title: "Today's Revenue" , icon:<HandCoins/>,amount:amount ,subtitle:"BDT"}];
                     
                         setorderkpi(kpicard);
             }else{
-                 const kpicard = [{title:"Today's Orders",icon:<CookingPot  />,amount:0 , Subtitle:"BDT"} , 
+                 const kpicard = [{title:"Today's Orders",icon:<CookingPot  />,amount:0 , Subtitle:""} , 
                         {title:"Pending Orders" ,icon:<RotateCwFadingClock />,amount:0 ,subtitle:"Orders"} ,
                         {title: "Today's Revenue" , icon:<HandCoins/>,amount:0 ,subtitle:"BDT"} ];
                         setorderkpi(kpicard);
@@ -119,20 +120,45 @@ export default function Overview() {
             );
         }
    
+        const searchOrder = (query: string) => {
+            if(!query){
+                setSendorders(getorders);
+                return;
+            }
+            const filteredOrders = getorders.filter((order) => {
+                const orderIdMatch = order.id.toLowerCase().includes(query.toLowerCase());
+                const customerNameMatch = order.customerName.toLowerCase().includes(query.toLowerCase());
+                return orderIdMatch || customerNameMatch;
+            });
+            setSendorders(filteredOrders);
+        }
+useEffect(()=>{
+    setSendorders(getorders);
+}, [getorders]);
+
 
     return <>
     <div className="">
         <div className="text-[40px]">Today's Overview</div>
         <span className="flex flex-row gap-10 mt-10">{kpicards ? kpicards?.map((e,i)=>
         <KPICard  key={i} {...e} />): "No data found "}</span> 
-        <div className="mt-15 flex flex-row gap-6 ">
+        <div className="mt-15  flex flex-row gap-6 ">
             <section className="w-[70%] " >
-                <div className="mb-3">
-                    <span className="text-[30px]">Live Orders</span>
-                    <span className="ml-5 text-[12px] cursor-pointer text-[#A13924] text-bold">View all Orders</span>
+                <div className="mb- flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                    <div className="flex items-baseline gap-3">
+                        <span className="text-[30px]">Live Orders</span>
+                        <span className="cursor-pointer text-[12px] font-bold text-[#A13924]">View all Orders</span>
+                    </div>
+                    <input
+                       onChange={(e)=>{searchOrder(e.target.value)}}
+                        type="text"
+                        placeholder="Search by Order ID or Customer Name"
+                        className="w-full rounded-lg border border-[#DEC0BA] bg-[#F5F3F0] p-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#A13924] sm:max-w-xs"
+                    />
                 </div>
+                
             
-                <LiveOrders getOrders={getorders} handleChange = {handleChange} />
+                <LiveOrders sendorders = {sendorders} handleChange = {handleChange} />
             </section>
 
             <section className="w-[25%]">

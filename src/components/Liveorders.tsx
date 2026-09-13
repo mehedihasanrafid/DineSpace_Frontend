@@ -6,28 +6,28 @@ import Result from "@/lib/Result";
 import { useContext } from "react";
 
 interface params{
-    getOrders:Order[];
+    sendorders:Order[];
     handleChange: (id:string , state:OrderStatus , paymentstate?:PaymentStatus)=>void;
 }
 
 
-export  default  function LiveOrders({getOrders , handleChange} :params){
+export  default  function LiveOrders({sendorders , handleChange} :params){
 
     return<>
     <div className="w-full bg-white h-210 p-5 mb-5 border border-[#DEC0BA] rounded-2xl shadow overflow-hidden ">
         <div className="flex h-full min-h-0 flex-row gap-2 z-auto">
             <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-y-auto overflow-x-hidden scrollbar-none">
                 <div className="sticky top-0 z-1 border-b border-[#DEC0BA] bg-white"> New </div>
-                {getOrders.map(e=> e.OrderStatus === OrderStatus.Pending ? <OrderCards key={e.id} handler = {handleChange} getOrders={e} /> :"")}
+                {sendorders.map(e=> e.OrderStatus === OrderStatus.Pending ? <OrderCards key={e.id} handler = {handleChange} getOrders={e} /> :"")}
             </div>
             <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-y-auto overflow-x-hidden scrollbar-none">
                 <div className="sticky top-0 z-10 border-b border-[#DEC0BA] bg-white"> Preparing </div>
-                {getOrders.map(e=> e.OrderStatus === OrderStatus.Preparing ? <OrderCards key={e.id} handler={handleChange} getOrders={e} /> :"")}
+                {sendorders.map(e=> e.OrderStatus === OrderStatus.Preparing ? <OrderCards key={e.id} handler={handleChange} getOrders={e} /> :"")}
             </div> 
             
             <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-y-auto overflow-x-hidden scrollbar-none">
                 <div className="sticky top-0 z-10 border-b border-[#DEC0BA] bg-white"> Ready </div>
-                {getOrders.map(e=> e.OrderStatus === OrderStatus.Ready ? <OrderCards key={e.id} handler ={handleChange} getOrders={e} /> :"")}
+                {sendorders.map(e=> e.OrderStatus === OrderStatus.Ready ? <OrderCards key={e.id} handler ={handleChange} getOrders={e} /> :"")}
 
             </div>
         </div>

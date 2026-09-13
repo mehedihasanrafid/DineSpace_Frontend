@@ -1,6 +1,7 @@
 import { resturantContext } from "@/lib/context/Context";
 import { useContext, useEffect, useState, type ChangeEvent } from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, LogOut } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface Resturant{
     id:string;
@@ -15,6 +16,7 @@ interface func{
 export default function ResturantNav({handleDefaultResturant , socConnect}:func) {
     const [defaultResturant, setdefaultResturant] = useState<Resturant>({ id: "", resturantName: "No resturant Found" });
     const { resturants } = useContext(resturantContext);
+    const router = useRouter();
 
 
     useEffect(() => {
@@ -53,11 +55,17 @@ export default function ResturantNav({handleDefaultResturant , socConnect}:func)
         localStorage.setItem("defaultres", JSON.stringify(selectedRestaurant));
     };
 
+    const handleLogout = () => {
+        localStorage.removeItem("accesstoken");
+        document.cookie = "accesstoken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; SameSite=Lax";
+        router.replace("/auth");
+    };
+
 
     return (
         // <resturantContext.Provider value={defaultResturant}>
         <>
-            <div className="fixed left-0 right-0 top-0 z-40 flex min-h-20 flex-row items-center gap-5 border-b border-[#DEC0BA] bg-[#FBF9F6] p-4 font-black shadow-sm sm:min-h-21 sm:p-5 md:left-[14%]">
+            <div className="fixed left-0 right-0 top-0 z-40 flex min-h-20 flex-row items-center gap-3 border-b border-[#DEC0BA] bg-[#FBF9F6] p-4 font-black shadow-sm sm:min-h-21 sm:gap-5 sm:p-5 md:left-[14%]">
                 <span className="relative block">
                 <select
                     name="resturentName"
@@ -94,6 +102,15 @@ export default function ResturantNav({handleDefaultResturant , socConnect}:func)
                     />
                     {socConnect ? "You are live" : "You are offline"}
                 </span>
+                <button
+                    type="button"
+                    onClick={handleLogout}
+                    aria-label="Log out"
+                    className="ml-auto inline-flex shrink-0 items-center gap-2 rounded-xl border border-[#DEC0BA] bg-white px-3 py-2 text-sm font-bold text-[#A13924] shadow-sm transition hover:border-[#A13924] hover:bg-[#F5F3F0] focus:outline-none focus:ring-2 focus:ring-[#A13924]/20"
+                >
+                    <LogOut size={18} aria-hidden="true" />
+                    <span className="hidden sm:inline">Log out</span>
+                </button>
             </div>
         </>
         // </resturantContext.Provider>
