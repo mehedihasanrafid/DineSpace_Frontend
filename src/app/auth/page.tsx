@@ -52,7 +52,7 @@ export default function Auth(){
                 localStorage.setItem("accesstoken" , data.Token);
                 document.cookie = `accesstoken=${encodeURIComponent(data.Token)}; path=/; SameSite=Lax`;
             }
-            if(data.Data?.role === "owner"){
+            if(data.Data?.role === "owner" || data.Data?.role === "admin"){
                 router.push("/home");
             }
             }

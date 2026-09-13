@@ -10,7 +10,7 @@ interface MyTokenPayload {
 } 
 
 const rolerouter: Record<string, string[]> = {
-    admin:[ "/adminHome" , '/adminhome/:path*'],
+    admin:[ "/adminHome" , '/adminhome/:path*' , "/home" , "/home/:path*"],
     owner:["/home" , '/home/:path*']
 }
 
