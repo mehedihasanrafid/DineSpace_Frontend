@@ -6,6 +6,7 @@ import {
     ClipboardList,
     CreditCard,
     LayoutDashboard,
+    LogOut,
     Store,
     Table2,
     Utensils,
@@ -14,6 +15,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 interface OwnerNavProps {
     handleDefaultResturant: (id:string)=> void;
@@ -34,6 +36,13 @@ const navItems = [
 
 export default function AdminNav() {
     const pathname = usePathname();
+    const router = useRouter();
+
+    const handleLogout = () => {
+        localStorage.removeItem("accesstoken");
+        document.cookie = "accesstoken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; SameSite=Lax";
+        router.replace("/auth");
+    };
 
     return <>
     <div className="fixed left-0 top-0 z-30 flex h-full min-w-50 w-[14%] flex-col items-start gap-2 border-r-2 border-[#DEC0BA] bg-[#F5F3F0] p-7 font-semibold text-[#646468]" >
@@ -46,6 +55,15 @@ export default function AdminNav() {
         className={`${(item.href === "/admin" ? pathname === item.href : pathname.startsWith(item.href)) ? "bg-[#EAE8E5] border-r-5 border-[#A13924] text-[#A13924] ml-2" : ""} hover:bg-[#EAE8E5] rounded hover:border-r-5 hover:border-[#A13924] hover:text-[#A13924] hover:ml-2 w-full p-2 h-auto transition-all duration-200 flex flex-row gap-2 items-center cursor-pointer`}
     > <item.icon size={20} strokeWidth={2} aria-hidden="true" /> {item.name}</Link>
     )}
+    <button
+        type="button"
+        onClick={handleLogout}
+        aria-label="Log out"
+        className="mt-auto flex w-full cursor-pointer flex-row items-center gap-2 rounded p-2 text-[#A13924] transition-all duration-200 hover:ml-2 hover:border-r-5 hover:border-[#A13924] hover:bg-[#EAE8E5]"
+    >
+        <LogOut size={20} strokeWidth={2} aria-hidden="true" />
+        Log out
+    </button>
     </div>
     </>
 

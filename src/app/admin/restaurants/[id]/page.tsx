@@ -1,8 +1,7 @@
 import { cookies } from "next/headers";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-
-const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
+import { api } from "@/lib/api/axios";
 
 interface MonthlyEarning {
     month: string;
@@ -31,11 +30,6 @@ interface AdminAnalytics {
     };
 }
 
-interface ApiResponse {
-    Success: boolean;
-    Data?: AdminAnalytics;
-}
-
 const formatAmount = (value: number | undefined) =>
     `${Number(value ?? 0).toLocaleString("en-BD", {
         minimumFractionDigits: 2,
@@ -43,18 +37,12 @@ const formatAmount = (value: number | undefined) =>
     })} BDT`;
 
 async function getAnalytics(id: string) {
-    const token = (await cookies()).get("accesstoken")?.value;
-    const response = await fetch(`${apiUrl}/resturant/AdminAnalytics/${id}`, {
-        headers: token
-            ? { Authorization: `Bearer ${decodeURIComponent(token)}` }
-            : undefined,
-        cache: "no-store",
-    });
+    const response = await api.get<{ Success: boolean; Data?: AdminAnalytics }>(
+        `/resturant/AdminAnalytics/${id}`,
+        
+    );
 
-    if (!response.ok) return null;
-
-    const result = await response.json() as ApiResponse;
-    return result.Success ? result.Data ?? null : null;
+    return response.data.Success ? response.data.Data ?? null : null;
 }
 
 export default async function RestaurantStatsPage({
